@@ -101,7 +101,7 @@ def players_games(
     # get archives in parallel by decorating the http request with defer
     @dlt.defer
     def _get_archive(url: str) -> List[TDataItem]:
-        print(f"Getting archive from {url}")
+        print(f"Getting archive from {url} modified")
         try:
             games = get_url_with_retry(url).get("games", [])
             return games  # type: ignore
@@ -120,6 +120,7 @@ def players_games(
             continue
         # do not download archive again
         if url in checked_archives:
+            print(end_month, url[-7:])
             continue
         checked_archives.append(url)
         # get the filtered archive
