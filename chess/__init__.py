@@ -74,8 +74,9 @@ def players_archives(players: List[str]) -> Iterator[List[TDataItem]]:
         yield data.get("archives", [])
 
 
+# Updated function for write_disposition="merge". The latest_checked_archive is identified and re-scanned on every run to integrate new games played.
 @dlt.resource(
-    write_disposition="append", columns={"end_time": {"data_type": "timestamp"}}
+    write_disposition="merge", primary_key="uuid", columns={"end_time": {"data_type": "timestamp"}}
 )
 def players_games(
     players: List[str], start_month: str = None, end_month: str = None
@@ -88,7 +89,9 @@ def players_games(
         end_month (str, optional): The ending month in the format "YYYY/MM". Defaults to None.
     Yields:
         Iterator[Callable[[], List[TDataItem]]]: An iterator over callables that return a list of games for each player.
-    """  # do a simple validation to prevent common mistakes in month format
+    """  
+    
+    # do a simple validation to prevent common mistakes in month format
     validate_month_string(start_month)
     validate_month_string(end_month)
 
