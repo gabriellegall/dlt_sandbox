@@ -98,10 +98,15 @@ def players_games(
     # get player archives, note that you can call the resource like any other function and just iterate it like a list
     archives = players_archives(players)
 
+    if checked_archives:
+        latest_checked_archive_url = sorted(checked_archives, key=lambda url: url[-7:])[-1]
+        latest_checked_archive = latest_checked_archive_url[-7:]
+        print(f"Latest checked archive: {latest_checked_archive}")
+        
     # get archives in parallel by decorating the http request with defer
     @dlt.defer
     def _get_archive(url: str) -> List[TDataItem]:
-        print(f"Getting archive from {url} modified")
+        print(f"Getting archive from {url}")
         try:
             games = get_url_with_retry(url).get("games", [])
             return games  # type: ignore
@@ -118,14 +123,12 @@ def players_games(
             continue
         if end_month and url[-7:] > end_month:
             continue
-        # do not download archive again
-        if url in checked_archives:
-            print(end_month, url[-7:])
+        # do not download archive again, but download the latest one
+        if url in checked_archives and url[-7:] != latest_checked_archive:
             continue
         checked_archives.append(url)
         # get the filtered archive
         yield _get_archive(url)
-
 
 @dlt.resource(write_disposition="append")
 def players_online_status(players: List[str]) -> Iterator[TDataItem]:
