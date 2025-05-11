@@ -1,8 +1,6 @@
-from dagster import Definitions, load_assets_from_modules
-import assets
-
-all_assets = load_assets_from_modules([assets])
+from dagster import Definitions
+from .assets import chess_dlt_asset
 
 defs = Definitions(
-    assets=all_assets,
+    assets=[chess_dlt_asset],
 )

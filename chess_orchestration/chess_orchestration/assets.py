@@ -1,5 +1,9 @@
 from dagster import asset
-from chess_pipeline.chess_pipeline_integration import run_chess_pipeline
+
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from chess_pipeline import run_chess_pipeline
 
 @asset
 def chess_dlt_asset():
