@@ -1,5 +1,5 @@
 import dlt
-from chess import source
+from .chess import source
 
 def run_chess_pipeline():
     pipeline = dlt.pipeline(
