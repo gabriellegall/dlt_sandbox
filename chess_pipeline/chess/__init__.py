@@ -104,7 +104,7 @@ def players_games(
     if checked_archives:
         latest_checked_archive_url = sorted(checked_archives, key=lambda url: url[-7:])[-1]
         latest_checked_archive = latest_checked_archive_url[-7:]
-        print(f"re-processing latest archive: {latest_checked_archive}")
+        print(f"archive period that will be re-processed: {latest_checked_archive}")
     else:
         latest_checked_archive = None
         

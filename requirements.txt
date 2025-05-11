@@ -5,3 +5,6 @@ matplotlib
 seaborn
 scikit-learn
 notebook
+dagster 
+dagster-dlt
+dagster-webserver
