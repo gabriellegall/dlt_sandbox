@@ -102,6 +102,8 @@ def players_games(
         latest_checked_archive_url = sorted(checked_archives, key=lambda url: url[-7:])[-1]
         latest_checked_archive = latest_checked_archive_url[-7:]
         print(f"Latest checked archive: {latest_checked_archive}")
+    else:
+        latest_checked_archive = None
         
     # get archives in parallel by decorating the http request with defer
     @dlt.defer
@@ -126,7 +128,9 @@ def players_games(
         # do not download archive again, but download the latest one
         if url in checked_archives and url[-7:] != latest_checked_archive:
             continue
-        checked_archives.append(url)
+        # append the url only if the latest checked archive is not the same or if it's the first archive
+        if latest_checked_archive is None or url[-7:] != latest_checked_archive:
+            checked_archives.append(url)
         # get the filtered archive
         yield _get_archive(url)
 
