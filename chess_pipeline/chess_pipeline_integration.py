@@ -1,7 +1,7 @@
 import dlt
-from .chess import source
+from chess import source
 
-def run_chess_pipeline():
+def run_pipeline():
     pipeline = dlt.pipeline(
         pipeline_name="chess_pipeline",
         destination='postgres',
@@ -11,7 +11,7 @@ def run_chess_pipeline():
     data = source(
         ["zundorn", "piwi100"],
         start_month="2024/01",
-        end_month="2025/05"
+        end_month="2025/06"
     )
 
     info = pipeline.run(
@@ -21,4 +21,6 @@ def run_chess_pipeline():
     )
 
     print(info)
-    return info
+
+if __name__ == "__main__":
+    run_pipeline()
